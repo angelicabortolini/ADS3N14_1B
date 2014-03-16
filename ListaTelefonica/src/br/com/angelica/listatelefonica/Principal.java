@@ -17,14 +17,7 @@ public class Principal {
 	public static void main(String []args) {
 		
 		new ControllerPrograma().iniciar();
-		
-		ListaEncadeada<Integer> lista = new ListaEncadeada<Integer>();
-		Nodo<Integer> nodo = new Nodo<Integer>(1);
-		
-		lista.insert(nodo);
-		lista.insert(new Nodo<Integer>(2),nodo);
-		lista.insert(new Nodo<Integer>(3),nodo);
-		
+				
 	}
 	
 }

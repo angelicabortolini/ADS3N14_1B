@@ -35,7 +35,7 @@ public class Arquivo {
 		gravaArq.println(registroLinha);
 		arq.close();
 		
-		System.out.println("Valor gravador com sucesso!");
+		//System.out.println("Valor gravador com sucesso!");
 		
 	}
 
@@ -47,20 +47,14 @@ public class Arquivo {
 	 * 
 	 * @throws IOException Disparado se caso houver falha de Entrada/Saída.
 	 */
-	public void consultar() throws HeadlessException, IOException {
+	public String consultar() throws HeadlessException, IOException {
 		
 		FileReader arq = new FileReader(CAMINHO_ARQUIVO);
 		BufferedReader lerArq = new BufferedReader(arq);
-		
-		String conteudo = "";
-		String linha = null;
-		
-		while( (linha = lerArq.readLine()) != null) {
-		    conteudo +=  linha + "\r\n";
-		} 
-		
-		System.out.println(conteudo);
-		arq.close();
+
+		String linha = lerArq.readLine();
+		 return linha;
+		//arq.close();
 		
 	}
 	

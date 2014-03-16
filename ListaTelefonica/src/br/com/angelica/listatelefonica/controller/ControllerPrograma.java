@@ -14,6 +14,17 @@ public class ControllerPrograma {
 	
 	public void iniciar() {
 		
+		ControllerListaTelefonica clt = new ControllerListaTelefonica();
+		try {
+			clt.inicializaLista();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		
+		
+		
 		conMenu.exibir();
 		
 	}
