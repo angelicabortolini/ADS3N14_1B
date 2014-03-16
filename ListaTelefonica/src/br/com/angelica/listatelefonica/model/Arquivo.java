@@ -2,6 +2,7 @@ package br.com.angelica.listatelefonica.model;
 
 import java.awt.HeadlessException;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,11 +16,18 @@ import java.io.PrintWriter;
 public class Arquivo {
 	
 	private final String CAMINHO_ARQUIVO = "Dados\\listaTelefonica.txt";
+	private FileReader arq ;
+	private BufferedReader lerArq;
 	
 	/**
 	 * Construtor padrão da classe sem inicializações.
+	 * @throws FileNotFoundException 
 	 */
-	public Arquivo() {}
+	public Arquivo() throws FileNotFoundException {
+		
+		arq = new FileReader(CAMINHO_ARQUIVO);
+		lerArq = new BufferedReader(arq);
+	}
 
 	/**
 	 * Grava um registro no arquivo texto.
@@ -41,21 +49,15 @@ public class Arquivo {
 
 	/**
 	 * Consulta o arquivo texto.
-	 * 
-	 * @throws HeadlessException Disparado quando o código que é dependente de um teclado, monitor ou mouse<br>
-	 * é chamado em um ambiente que não suporta um teclado, monitor ou mouse.
-	 * 
-	 * @throws IOException Disparado se caso houver falha de Entrada/Saída.
+	 * @throws IOException 
+	 *
 	 */
-	public String consultar() throws HeadlessException, IOException {
+	public String consultar() throws IOException {
 		
-		FileReader arq = new FileReader(CAMINHO_ARQUIVO);
-		BufferedReader lerArq = new BufferedReader(arq);
-
 		String linha = lerArq.readLine();
 		 return linha;
-		//arq.close();
 		
 	}
 	
+
 }

@@ -49,9 +49,17 @@ public class ListaEncadeada<T> {
 		this.tail = tail;
 	}
 	
-	public void writeList() {
+	public String imprimir() {
+		
 		Nodo<T> elem = head;
-		elem = elem.getNext();
+		String valores = "";
+		
+		do {
+			valores += elem.getData() + "\r\n";
+			elem = elem.getNext();
+		} while (elem != null);
+		
+		return valores;
 
 	}
 	
