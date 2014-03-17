@@ -22,6 +22,7 @@ public class ConsoleListaTelefonica {
 		textoMenu += "1 - Incluir Contato.\n";
 		textoMenu += "2 - Excluir Contato.\n";
 		textoMenu += "3 - Consultar Contato.\n";
+		textoMenu += "4 - Consultar Contato (Letra Inicial).\n";
 		textoMenu += "0 - Encerrar Aplicação.\n";
 		
 		System.out.println(textoMenu);

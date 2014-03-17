@@ -1,4 +1,6 @@
 package br.com.angelica.listatelefonica;
+import java.io.FileNotFoundException;
+
 import br.com.angelica.listatelefonica.controller.ControllerListaTelefonica;
 
 
@@ -11,8 +13,9 @@ public class Principal {
 	/**
 	 * Método principal da aplicação.
 	 * @param args argumento de linha de comando.
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String []args) {
+	public static void main(String []args) throws FileNotFoundException {
 
 		new ControllerListaTelefonica().iniciar();
 		

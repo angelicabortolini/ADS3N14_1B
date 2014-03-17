@@ -1,5 +1,6 @@
 package br.com.angelica.listatelefonica.controller;
 import java.awt.HeadlessException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import br.com.angelica.listatelefonica.model.Arquivo;
 import br.com.angelica.listatelefonica.model.ListaEncadeada;
@@ -11,16 +12,19 @@ public class ControllerListaTelefonica {
 	private ConsoleListaTelefonica clt;
 	private ListaEncadeada<String> lista;
 	private Nodo<String> novo;
+	private Nodo<String> anterior = null;	
+	private Arquivo arquivo ;
 	
 	
 	/**
 	 * Construtor padrão inicializando os campos.
+	 * @throws FileNotFoundException 
 	 */
-	public ControllerListaTelefonica() {
+	public ControllerListaTelefonica() throws FileNotFoundException {
 		
 		clt = new ConsoleListaTelefonica();
 		lista = new ListaEncadeada<String>();
-		
+		arquivo = new Arquivo();
 	}
 	
 	
@@ -34,10 +38,7 @@ public class ControllerListaTelefonica {
 		
 		try {
 			
-			Arquivo arquivo = new Arquivo();
-			
 			String linhaArquivo;
-			Nodo<String> anterior = null;	
 			while( (linhaArquivo = arquivo.consultar())!= null) {
 			
 				String[] valores = linhaArquivo.split("\\|");
@@ -65,12 +66,10 @@ public class ControllerListaTelefonica {
 	
 	public void insereValor(String nome, String telefone) throws IOException{
 		
-		// ListaEncadeada<String> lista = new ListaEncadeada<String>();		
-		Arquivo arquivo = new Arquivo();
-		
 		String linhaArquivo = nome + "|" + telefone + "|A";
-		Nodo<String> anterior = null;	
-		if(lista.getHead().equals("")){
+		//quando a lista está vazia insere primeiro nodo.
+		
+		if(lista.getHead() == null){
 			Nodo<String> nodo = new Nodo<String>(linhaArquivo);
 			lista.insert(nodo);
 			anterior = nodo;
@@ -82,6 +81,25 @@ public class ControllerListaTelefonica {
 	    	arquivo.gravar(linhaArquivo);
 		}
 
+	}
+	
+	
+	/**
+	 * Busca um contato apenas utilizando a inicial do nome.
+	 * 
+	 * @param inicial Uma única String representando a inicial do nome do contato.
+	 * @return O valor do registro. Caso não encontrado retorna mensagem: Não possível localizar contato.
+	 */
+	public String buscarIncial(String inicial) {
+		
+		Nodo<String> no = lista.procurarNoPorValorInicial(inicial);
+		
+		if(no == null) {
+			return "Não possível localizar contato.";
+		} else {
+			return no.getData();
+		}
+		
 	}
 	
 	/**
@@ -100,15 +118,16 @@ public class ControllerListaTelefonica {
 		
 		do {
 			
+			String nome = "";
+			String telefone = "";
+			String inicial = "";
+			
 			clt.exibirMenu();
 			operacao = clt.capturarOperacao();
 			
 			switch(operacao) {
 			
 			case 1:
-				
-				String nome = "";
-				String telefone = "";
 				
 				clt.exibirTituloOpcao("Incluir um contato telefônico");
 				clt.exibirMensagem("Informe o nome: ", false);
@@ -131,6 +150,11 @@ public class ControllerListaTelefonica {
 				
 				clt.exibirMensagem("Informe o nome: ", false);
 				clt.capturarNome();
+				try {
+					arquivo.excluiItemLista("misael");
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				
 				clt.exibirMensagem("Contato excluido.", true);
 				break;
@@ -144,6 +168,16 @@ public class ControllerListaTelefonica {
 				
 				// Imprimindo toda a lista.
 				clt.imprimirLista(lista.imprimir());
+				
+				break;
+				
+			case 4:
+				
+				clt.exibirTituloOpcao("Consultar contato pela letra inicial");
+				clt.exibirMensagem("Informe a letra inicial: ", false);
+				inicial = String.valueOf(clt.capturarNome().charAt(0));
+				
+				clt.imprimirLista(buscarIncial(inicial));
 				
 				break;
 				

@@ -43,8 +43,6 @@ public class Arquivo {
 		gravaArq.println(registroLinha);
 		arq.close();
 		
-		//System.out.println("Valor gravador com sucesso!");
-		
 	}
 
 	/**
@@ -60,4 +58,43 @@ public class Arquivo {
 	}
 	
 
+	public void excluiItemLista(String nome) throws IOException{
+				
+		FileReader arq = new FileReader(CAMINHO_ARQUIVO);
+		BufferedReader lerArq = new BufferedReader(arq);
+		String linhaArquivo;
+		String conteudo = "";
+		while( (linhaArquivo = lerArq.readLine())!= null) {
+
+			String[] valores = linhaArquivo.split("\\|");
+			if(valores[0].equalsIgnoreCase(nome)){	
+				conteudo += valores[0] + "|" + valores[1] + "|I,";			
+			}else{
+				conteudo += linhaArquivo + ",";
+			}
+			
+	    }
+		
+		String[] conteudonovo = conteudo.split("\\,");
+		for (int i = 0; i < conteudonovo.length; i++) {
+			
+			if (i == 0) {
+				
+				FileWriter arqnovo = new FileWriter(CAMINHO_ARQUIVO);
+				PrintWriter gravaArq = new PrintWriter(arqnovo);
+				gravaArq.println(conteudonovo[i]);
+				arq.close();
+				
+			}else{
+				
+				FileWriter arqnovo = new FileWriter(CAMINHO_ARQUIVO, true);
+				PrintWriter gravaArq = new PrintWriter(arqnovo);
+				gravaArq.println(conteudonovo[i]);
+				arq.close();
+				
+			}
+		}
+
+		
+	}
 }

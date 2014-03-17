@@ -63,4 +63,28 @@ public class ListaEncadeada<T> {
 
 	}
 	
+	public Nodo<T> procurarNoPorValorInicial(T valor) {
+		
+		Nodo<T> nodo = head;
+		Nodo<T> anterior = null;
+		
+		while (nodo != null) {
+			
+			String letraInicial = String.valueOf( ((String) nodo.getData()).charAt(0) ); 
+			
+			int cmp = letraInicial.compareTo((String) valor);
+			
+			if (cmp == 0) {
+				return nodo;
+			}			
+			
+			anterior = nodo;
+			nodo = nodo.getNext();
+			
+		}
+		
+		return nodo;
+		
+	}
+	
 }
