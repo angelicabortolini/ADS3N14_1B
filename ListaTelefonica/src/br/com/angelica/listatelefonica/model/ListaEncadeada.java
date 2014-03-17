@@ -1,11 +1,9 @@
 package br.com.angelica.listatelefonica.model;
-
 import static java.lang.System.out;
-
 import java.awt.HeadlessException;
 import java.io.IOException;
 
-public class ListaEncadeada<T> {
+public class ListaEncadeada<T extends Comparable<T>> {
 
 	protected Nodo<T> head;
 	protected Nodo<T> tail;
@@ -84,6 +82,57 @@ public class ListaEncadeada<T> {
 		}
 		
 		return nodo;
+	}
+	
+	@SuppressWarnings("null")
+	public void delete(T valor){
+		
+		Nodo<T> nodo = head;
+		Nodo<T> anterior = null;
+		Nodo<T> proximo = null;
+		Nodo<T> aux = null; 
+		
+		// percorre a lista procurando o nodo que devera ser excluido
+		while (nodo != null) {
+			int cmp = nodo.getData().compareTo(valor);
+			
+			if (cmp == 0){
+				if(nodo.getPreview() == null){
+					//se o nodo a excluir for o head
+					proximo = nodo.getNext();
+					
+				}else if(nodo.getNext() == null){
+					//se o nodo a excluir for o tail
+					anterior = nodo.getPreview();
+				}else{
+					//se o nodo a excluir for do meio
+					proximo = nodo.getNext();
+					anterior = nodo.getPreview();
+				}
+				
+				break;
+			}
+			
+			anterior = nodo;
+			nodo = nodo.getNext();
+		}
+		
+		
+		if(nodo.getPreview() == null){
+			//se o nodo a excluir for o head
+			proximo.setPreview(nodo.getPreview());
+			head = proximo;
+			
+		}else if(nodo.getNext() == null){
+			//se o nodo a excluir for o tail
+			anterior.setNext(nodo.getNext());
+			tail = anterior;
+		}else{
+			//se o nodo a excluir for do meio
+			aux = nodo.getPreview();
+			anterior.setNext(nodo.getNext());
+			proximo.setPreview(aux);
+		}
 		
 	}
 	

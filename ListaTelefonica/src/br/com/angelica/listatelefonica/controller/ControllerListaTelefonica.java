@@ -147,16 +147,22 @@ public class ControllerListaTelefonica {
 			case 2:
 				
 				clt.exibirTituloOpcao("Excluir contato telefônico");
-				
 				clt.exibirMensagem("Informe o nome: ", false);
-				clt.capturarNome();
+				
 				try {
-					arquivo.excluiItemLista("misael");
+					
+					if( arquivo.excluiItemLista(clt.capturarNome()) ) {
+						clt.exibirMensagem("Contato excluido.", true);
+					} else {
+						clt.exibirMensagem("Contato não localizado.", true);
+					}
+					
 				} catch (Exception e) {
-					// TODO: handle exception
+					
+					clt.exibirMensagem("Erro: " + e.getMessage(), true);
+					
 				}
 				
-				clt.exibirMensagem("Contato excluido.", true);
 				break;
 				
 			case 3:
