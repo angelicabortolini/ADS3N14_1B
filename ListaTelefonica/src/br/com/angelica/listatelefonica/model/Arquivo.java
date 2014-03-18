@@ -71,7 +71,7 @@ public class Arquivo {
 			String[] valores = linhaArquivo.split("\\|");
 			
 			// O valor informado é igual ao do contato (ignorando caixa alta ou baixa)
-			if(valores[0].equalsIgnoreCase(nome)) {
+			if(valores[0].equals(nome)) {
 				// Atualiza a linha
 				conteudo += valores[0] + "|" + valores[1] + "|I,";
 				contatoLocalizado = true;

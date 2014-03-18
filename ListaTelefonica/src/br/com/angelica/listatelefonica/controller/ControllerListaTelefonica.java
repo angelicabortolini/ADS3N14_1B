@@ -148,20 +148,32 @@ public class ControllerListaTelefonica {
 				
 				clt.exibirTituloOpcao("Excluir contato telefônico");
 				clt.exibirMensagem("Informe o nome: ", false);
+				String capturarNome = clt.capturarNome();
 				
 				try {
 					
-					if( arquivo.excluiItemLista(clt.capturarNome()) ) {
-						clt.exibirMensagem("Contato excluido.", true);
-					} else {
-						clt.exibirMensagem("Contato não localizado.", true);
+					lista.delete(capturarNome);
+					
+					try {
+						
+						if( arquivo.excluiItemLista(capturarNome) ) {
+							clt.exibirMensagem("Contato excluido.", true);
+						} else {
+							clt.exibirMensagem("Contato não localizado.", true);
+						}
+						
+					} catch (Exception e) {
+						
+						clt.exibirMensagem("Erro: " + e.getMessage(), true);
+						
 					}
 					
 				} catch (Exception e) {
 					
 					clt.exibirMensagem("Erro: " + e.getMessage(), true);
-					
 				}
+				
+
 				
 				break;
 				
@@ -206,7 +218,7 @@ public class ControllerListaTelefonica {
 	public void finalizar() {
 		
 		clt.exibirTituloOpcao("Finalizando aplicação");
-		System.exit(1);
+		System.exit(0);
 		
 	}
 }

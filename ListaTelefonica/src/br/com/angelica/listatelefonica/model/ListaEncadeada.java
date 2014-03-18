@@ -61,6 +61,12 @@ public class ListaEncadeada<T extends Comparable<T>> {
 
 	}
 	
+	/**
+	 * Procura pelo valor inicial do nome do contato no nó da lista.
+	 * 
+	 * @param valor String representando a letra inicial pela qual se quer buscar o contato.
+	 * @return Retorna o nó da lista. Caso no seja encontrado o valor, retorna null.
+	 */
 	public Nodo<T> procurarNoPorValorInicial(T valor) {
 		
 		Nodo<T> nodo = head;
@@ -68,11 +74,17 @@ public class ListaEncadeada<T extends Comparable<T>> {
 		
 		while (nodo != null) {
 			
+			// Atribui a letraInicial a primeira String do valor do nó iterado.
 			String letraInicial = String.valueOf( ((String) nodo.getData()).charAt(0) ); 
 			
+			// Os dados de cada coluna do nó.
+			String[] colunaNo = ((String) nodo.getData()).split("\\|");
+			
+			// Compara as iniciais do valor (parâmetro) e do nó.
 			int cmp = letraInicial.compareTo((String) valor);
 			
-			if (cmp == 0) {
+			// Se as iniciais são iguais e se o nó não está excluido logicamente.
+			if (cmp == 0 && colunaNo[2].equals("A")) {
 				return nodo;
 			}			
 			
@@ -84,19 +96,23 @@ public class ListaEncadeada<T extends Comparable<T>> {
 		return nodo;
 	}
 	
-	@SuppressWarnings("null")
+
 	public void delete(T valor){
 		
 		Nodo<T> nodo = head;
 		Nodo<T> anterior = null;
 		Nodo<T> proximo = null;
 		Nodo<T> aux = null; 
+		boolean encontrou = false;
 		
 		// percorre a lista procurando o nodo que devera ser excluido
 		while (nodo != null) {
-			int cmp = nodo.getData().compareTo(valor);
+			String[] valores = nodo.getData().toString().split("\\|");
 			
-			if (cmp == 0){
+			if(valores[0].equals(valor)){
+		        
+				encontrou = true;
+				
 				if(nodo.getPreview() == null){
 					//se o nodo a excluir for o head
 					proximo = nodo.getNext();
@@ -117,23 +133,23 @@ public class ListaEncadeada<T extends Comparable<T>> {
 			nodo = nodo.getNext();
 		}
 		
-		
-		if(nodo.getPreview() == null){
-			//se o nodo a excluir for o head
-			proximo.setPreview(nodo.getPreview());
-			head = proximo;
-			
-		}else if(nodo.getNext() == null){
-			//se o nodo a excluir for o tail
-			anterior.setNext(nodo.getNext());
-			tail = anterior;
-		}else{
-			//se o nodo a excluir for do meio
-			aux = nodo.getPreview();
-			anterior.setNext(nodo.getNext());
-			proximo.setPreview(aux);
+		if(encontrou){
+			if(nodo.getPreview() == null){
+				//se o nodo a excluir for o head
+				proximo.setPreview(nodo.getPreview());
+				head = proximo;
+				
+			}else if(nodo.getNext() == null){
+				//se o nodo a excluir for o tail
+				anterior.setNext(nodo.getNext());
+				tail = anterior;
+			}else{
+				//se o nodo a excluir for do meio
+				aux = nodo.getPreview();
+				anterior.setNext(nodo.getNext());
+				proximo.setPreview(aux);
+			}
 		}
-		
 	}
 	
 }
