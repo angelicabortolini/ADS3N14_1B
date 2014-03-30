@@ -102,6 +102,24 @@ public class ControllerListaTelefonica {
 		
 	}
 	
+	  public String buscarContatoPesquisaBinaria(String nome) {
+			
+			String valor = "";
+			
+			try {
+				
+				valor = lista.buscaBinaria(nome);
+				
+			} catch(Exception e) {
+				
+				clt.exibirMensagem("Não foi possível localizar o contato.", true);
+				
+			}
+			
+			return valor;
+			
+		}
+	
 	/**
 	 * Trata o início da aplicação, fazendo chamada dos métodos que estão no ConListaTelefonica.
 	 */
@@ -179,24 +197,36 @@ public class ControllerListaTelefonica {
 				
 			case 3:
 				
-				clt.exibirTituloOpcao("Consultar um contato telefônico");
-				
-				clt.exibirMensagem("Informe o nome: ", false);
-				clt.capturarNome();
-				
-				// Imprimindo toda a lista.
-				clt.imprimirLista(lista.imprimir());
-				
-				break;
-				
-			case 4:
-				
 				clt.exibirTituloOpcao("Consultar contato pela letra inicial");
 				clt.exibirMensagem("Informe a letra inicial: ", false);
 				inicial = String.valueOf(clt.capturarNome().charAt(0));
 				
 				clt.imprimirLista(buscarIncial(inicial));
 				
+				break;
+				
+			case 4:
+				
+				clt.exibirMensagem("Informe o nome: ", false);
+				Nodo<String> nodo = lista.localizarNo(clt.capturarNome());
+				if(nodo == null) {
+					clt.exibirMensagem("Valor não encontrado.", true);
+				} else {
+					clt.exibirMensagem(nodo.getData(), true);
+				}
+				
+				break;
+				
+			case 5:
+				
+				clt.exibirMensagem("Informe o nome do contato: ", false);
+				clt.imprimirLista(this.buscarContatoPesquisaBinaria(clt.capturarNome()));
+				break;
+				
+			case 6:
+				
+				clt.exibirMensagem("Imprimindo contatos", true);
+				clt.imprimirLista(lista.imprimir());
 				break;
 				
 			case 0:

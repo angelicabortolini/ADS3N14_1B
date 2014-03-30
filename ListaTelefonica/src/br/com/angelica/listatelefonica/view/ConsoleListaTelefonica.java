@@ -13,7 +13,7 @@ public class ConsoleListaTelefonica {
 	public ConsoleListaTelefonica() {}
 	
 	/**
-	 * Prepara a exibição do menu da aplicação.
+	 * Prepara a exibição do menu da aplicação.s
 	 */
 	public void exibirMenu() {
 		
@@ -21,8 +21,10 @@ public class ConsoleListaTelefonica {
 		
 		textoMenu += "1 - Incluir Contato.\n";
 		textoMenu += "2 - Excluir Contato.\n";
-		textoMenu += "3 - Consultar Contato.\n";
-		textoMenu += "4 - Consultar Contato (Letra Inicial).\n";
+		textoMenu += "3 - Consultar Contato (Letra Inicial).\n";
+		textoMenu += "4 - Consultar Contato (Busca sequêncial Nome).\n";
+		textoMenu += "5 - Consultar Contato (Busca binária Nomes).\n";
+		textoMenu += "6 - Imprimir cotratos.\n";
 		textoMenu += "0 - Encerrar Aplicação.\n";
 		
 		System.out.println(textoMenu);

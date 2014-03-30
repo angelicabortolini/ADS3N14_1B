@@ -1,12 +1,11 @@
 package br.com.angelica.listatelefonica.model;
-import static java.lang.System.out;
-import java.awt.HeadlessException;
-import java.io.IOException;
+import java.util.Arrays;
 
 public class ListaEncadeada<T extends Comparable<T>> {
 
 	protected Nodo<T> head;
 	protected Nodo<T> tail;
+	private String[] listaBinaria;
 	
 	/**
 	 * Metodo para insercao do primeiro nodo.
@@ -96,7 +95,25 @@ public class ListaEncadeada<T extends Comparable<T>> {
 		return nodo;
 	}
 	
-
+	public Nodo<T> localizarNo(String valor) {
+		
+		Nodo<T> nodo = head;
+		
+		while(nodo != null) {
+			
+			String[] nome = nodo.getData().toString().split("\\|");
+			
+			if(nome[0].equals(valor)) {
+				return nodo;
+			}
+			
+			nodo = nodo.getNext();
+		}
+		
+		return null;
+		
+	}
+ 
 	public void delete(T valor){
 		
 		Nodo<T> nodo = head;
@@ -150,6 +167,62 @@ public class ListaEncadeada<T extends Comparable<T>> {
 				proximo.setPreview(aux);
 			}
 		}
+	}
+	
+	private void gravaArray(){
+		
+		
+		Nodo<T> nodo = head;
+		listaBinaria = new String[this.contarNo()];
+		
+		int i = 0;
+		while (nodo != null) {
+				
+			listaBinaria[i] =  nodo.getData().toString();
+		    i++;
+		    
+		    nodo = nodo.getNext();
+		}
+
+		Arrays.sort(listaBinaria);
+	}
+	
+	public String buscaBinaria( String chave) {
+		gravaArray();
+	    return buscaBinariaRecursiva(listaBinaria, 0, listaBinaria.length - 1, chave);
+	 }
+
+	private String buscaBinariaRecursiva(String[] array, int primeiroIndice, int ultimoIndice, String nome) {
+	
+	    int indiceMeio = (primeiroIndice + ultimoIndice) / 2;     
+	    String[] nomeDoIndice = array[indiceMeio].split("\\|");
+	    
+	    if (primeiroIndice > ultimoIndice){
+	        return "";
+	    }else if(nomeDoIndice[0].toString().compareTo(nome) == 0){
+	        return array[indiceMeio];
+	    }else if (nomeDoIndice[0].toString().compareTo(nome) < 0){
+		   return buscaBinariaRecursiva(array, indiceMeio+1, ultimoIndice, nome);	         
+	    }else{
+	       return buscaBinariaRecursiva(array, primeiroIndice, indiceMeio-1, nome); 
+	    } 
+	}
+	
+    public int contarNo() {
+		
+		// Inicia o nó com o 1º da lista.
+		Nodo<T> no = head;
+		int qt = 0;
+		
+		while(no != null) {
+			
+			no = no.getNext();
+			qt++;
+			
+		}
+		
+		return qt;
+		
 	}
 	
 }
