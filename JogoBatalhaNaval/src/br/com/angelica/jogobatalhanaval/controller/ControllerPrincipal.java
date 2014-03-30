@@ -1,5 +1,9 @@
 package br.com.angelica.jogobatalhanaval.controller;
 
+import br.com.angelica.jogobatalhanaval.model.Placar;
+import br.com.angelica.jogobatalhanaval.model.Tabuleiro;
+import br.com.angelica.jogobatalhanaval.view.Console;
+
 public class ControllerPrincipal {
 		
 		private Console console;
