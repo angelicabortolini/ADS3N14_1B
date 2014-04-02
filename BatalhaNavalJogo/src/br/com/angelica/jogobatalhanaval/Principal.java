@@ -4,7 +4,7 @@ import br.com.angelica.jogobatalhanaval.controller.ControllerPrincipal;
 
 /**
  * Class
- * @author Angélica Bortolini
+ * @author Angélica Bortolini.
  */
 
 public class Principal {
