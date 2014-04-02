@@ -1,32 +1,32 @@
 package br.com.angelica.jogobatalhanaval.controller;
 
-import br.com.angelica.jogobatalhanaval.model.Placar;
+import br.com.angelica.jogobatalhanaval.model.Pontuacao;
 import br.com.angelica.jogobatalhanaval.model.Tabuleiro;
-import br.com.angelica.jogobatalhanaval.view.Console;
+import br.com.angelica.jogobatalhanaval.view.Formulario;
 
 public class ControllerPrincipal {
 		
-		private Console console;
+		private Formulario formulario;
 		private Tabuleiro tabuleiro;
-		private Placar placar;
+		private Pontuacao pontuacao;
 		
 		/**
 		 * Construtor padrão da classe.
 		 */
 		public ControllerPrincipal() {
 			
-			console   = new Console();
+			formulario   = new Formulario();
 			tabuleiro = new Tabuleiro();
-			placar    = new Placar();
+			pontuacao    = new Pontuacao();
 
 		}
 		
 		/**
-		 * Inclue as rotinas necessárias para iniciar o programa.
+		 * Metodos para iniciar o programa
 		 */
 		public void iniciar() {
 		
-			console.imprimir("Batalha Naval Java.\n");
+			formulario.imprimir("Batalha Naval Java.\n");
 			tabuleiro.iniciar();
 			String opcao = "";
 			
@@ -34,20 +34,20 @@ public class ControllerPrincipal {
 				
 				tabuleiro.distribuirNavios();
 				
-				console.imprimir(tabuleiro.imprimir());
-				console.imprimir("Placar: " + placar.getPontuacao() + " pontos\n");
-				console.imprimir("*** Menu ***\n");
-				console.imprimir("1 - Reiniciar partida.");
-				console.imprimir("2 - Disparar torpedo.");
-				console.imprimir("0 - Abandonar partirda.");
-				opcao = console.cursor("Opção");
+				formulario.imprimir(tabuleiro.imprimir());
+				formulario.imprimir("Placar: " + pontuacao.getPontuacao() + " pontos\n");
+				formulario.imprimir("*** Menu ***\n");
+				formulario.imprimir("1 - Reiniciar jogo.");
+				formulario.imprimir("2 - Disparar torpedo.");
+				formulario.imprimir("0 - Abandonar jogo.");
+				opcao = formulario.cursor("Opção");
 				
 				switch (opcao) {
 				
 				case "1":
 					
 					tabuleiro.iniciar();
-					placar.setPontuacao(15);
+					pontuacao.setPontuacao(15);
 					
 					break;
 				
@@ -56,13 +56,6 @@ public class ControllerPrincipal {
 					this.executarTurno();
 					break;
 					
-				case "3":
-
-					// Game cheat.
-					console.imprimir("Revelando posição dos navios.");
-					tabuleiro.revelarPosicaoNavios();
-					break;
-
 				case "0":
 					
 					this.finalizar();
@@ -70,7 +63,7 @@ public class ControllerPrincipal {
 					
 				default:
 					
-					console.imprimir("Escolha uma das opções do menu.");
+					formulario.imprimir("Escolha uma das opções do menu.");
 					break;
 					
 				}
@@ -80,48 +73,37 @@ public class ControllerPrincipal {
 		}
 
 		/**
-		 * Finaliza o programa.
+		 * Finaliza o jogo.
 		 */
 		private void finalizar() {
 			
-			console.imprimir("Fim do jogo.");
+			formulario.imprimir("Fim do jogo.");
 			System.exit(0);
 			
 		}
 		
-		/**
-		 * Executa um turno na jogada.
-		 */
 		private void executarTurno() {
 			
 			String coordenada  = "";
 			String coordLinha  = "";
 			String coordColuna = "";
-			String infoTorpedo = "";
+			String alertaDisparo = "";
 			
 			boolean portaAviaoDestruido, detroyerDestruido, fragataDestruido, torpedeiroDestruido, submarinoDestruido;
 			portaAviaoDestruido = detroyerDestruido = fragataDestruido = torpedeiroDestruido = submarinoDestruido = false;
 			
-			// Garantir que a coordenada obedeça ao formato 01 número[0-9] + 01 letra[A-J].
 			do {
 				
-				coordenada = console.cursor("Escolha a coordenada onde linha [0-9] e coluna [A-J]");
+				coordenada = formulario.cursor("Escolha a coordenada onde linha [0-9] e coluna [A-J]");
 				
-				// O tamanho da String deve ser de dois caracteres.
 				if(coordenada.length() != 2) {
 					continue;
 				}
 				
-				// Obter a 1º parte da coordenada.
-				coordLinha = String.valueOf(coordenada.charAt(0));
-				
-				// Obter a 2º parte da coordenada tratando o valor para CAIXA ALTA (para reduzir número de testes)			
+				coordLinha = String.valueOf(coordenada.charAt(0));			
 				coordColuna = String.valueOf(coordenada.charAt(1)).toUpperCase();
-				
-				// Devolvovemos a coordenda com o 2º informação tratada.
 				coordenada = coordLinha + coordColuna;
 				
-				// Validar os dados de coordenada.
 			} while(!coordLinha.equals("0") &&
 					!coordLinha.equals("1") &&
 					!coordLinha.equals("2") &&
@@ -143,129 +125,125 @@ public class ControllerPrincipal {
 					!coordColuna.equals("I") &&
 					!coordColuna.equals("J"));
 			
-			// Enviar as coordenadas para o tabuleiro.
 			tabuleiro.receberCoordenadaNavio(coordenada);
-			
-			// Se qualquer parte do Porta Aviões foi atingida.
-			if(tabuleiro.getPortaAviao().getPosPart1().equals("") ||
-			   tabuleiro.getPortaAviao().getPosPart2().equals("") ||
-			   tabuleiro.getPortaAviao().getPosPart3().equals("") ||
-			   tabuleiro.getPortaAviao().getPosPart4().equals("") ||
-			   tabuleiro.getPortaAviao().getPosPart5().equals("")) {
+
+			// Porta-aviões foi atingido.
+			if(tabuleiro.getPortaAviao().getParte1().equals("") ||
+			   tabuleiro.getPortaAviao().getParte2().equals("") ||
+			   tabuleiro.getPortaAviao().getParte3().equals("") ||
+			   tabuleiro.getPortaAviao().getParte4().equals("") ||
+			   tabuleiro.getPortaAviao().getParte5().equals("")) {
 				
-				placar.setPontuacao(placar.getPontuacao() + 3);
-				infoTorpedo = "Porta aviões atingido";
-				
-			}
-			
-			// Se qualquer parte do Destroyer foi atingida.
-			if(tabuleiro.getDestroyer().getPosPart1().equals("") ||
-			   tabuleiro.getDestroyer().getPosPart2().equals("") ||
-			   tabuleiro.getDestroyer().getPosPart3().equals("") ||
-			   tabuleiro.getDestroyer().getPosPart4().equals("")) {
-				
-				placar.setPontuacao(placar.getPontuacao() + 3);
-				infoTorpedo = "Destroyer atingido";
+				pontuacao.setPontuacao(pontuacao.getPontuacao() + 3);
+				alertaDisparo = "Porta aviões atingido";
 				
 			}
 			
-			// Se qualquer parte da Fragata foi atingida.
-			if(tabuleiro.getFragata().getPosPart1().equals("") ||
-	     	   tabuleiro.getFragata().getPosPart2().equals("") ||
-			   tabuleiro.getFragata().getPosPart3().equals("")) {
+			// Destroyer foi atingido.
+			if(tabuleiro.getDestroyer().getParte1().equals("") ||
+			   tabuleiro.getDestroyer().getParte2().equals("") ||
+			   tabuleiro.getDestroyer().getParte3().equals("") ||
+			   tabuleiro.getDestroyer().getParte4().equals("")) {
 				
-				placar.setPontuacao(placar.getPontuacao() + 3);
-				infoTorpedo = "Fragata atingida";
-				
-			}
-			
-			// Se qualquer parte do Torpedeiro foi atingida.
-			if(tabuleiro.getTorpedeiro().getPosPart1().equals("") ||
-			   tabuleiro.getTorpedeiro().getPosPart1().equals("")) {
-				
-				placar.setPontuacao(placar.getPontuacao() + 3);
-				infoTorpedo = "Fragata atingida";
+				pontuacao.setPontuacao(pontuacao.getPontuacao() + 3);
+				alertaDisparo = "Destroyer atingido";
 				
 			}
 			
-			
-			// Se todo o Porta Aviões foi destruido.
-			if(tabuleiro.getPortaAviao().getPosPart1().equals("") &&
-			   tabuleiro.getPortaAviao().getPosPart2().equals("") &&
-			   tabuleiro.getPortaAviao().getPosPart3().equals("") &&
-			   tabuleiro.getPortaAviao().getPosPart4().equals("") &&
-			   tabuleiro.getPortaAviao().getPosPart5().equals("")) {
+			// Fragata foi atingida.
+			if(tabuleiro.getFragata().getParte1().equals("") ||
+	     	   tabuleiro.getFragata().getParte2().equals("") ||
+			   tabuleiro.getFragata().getParte3().equals("")) {
 				
-				placar.setPontuacao(placar.getPontuacao() + 5);
+				pontuacao.setPontuacao(pontuacao.getPontuacao() + 3);
+				alertaDisparo = "Fragata atingida";
+				
+			}
+			
+			// Torpedeiro foi atingido.
+			if(tabuleiro.getTorpedeiro().getParte1().equals("") ||
+			   tabuleiro.getTorpedeiro().getParte2().equals("")) {
+				
+				pontuacao.setPontuacao(pontuacao.getPontuacao() + 3);
+				alertaDisparo = "Fragata atingida";
+				
+			}
+			
+			
+			//Porta-Aviões foi destruido.
+			if(tabuleiro.getPortaAviao().getParte1().equals("") &&
+			   tabuleiro.getPortaAviao().getParte2().equals("") &&
+			   tabuleiro.getPortaAviao().getParte3().equals("") &&
+			   tabuleiro.getPortaAviao().getParte4().equals("") &&
+			   tabuleiro.getPortaAviao().getParte5().equals("")) {
+				
+				pontuacao.setPontuacao(pontuacao.getPontuacao() + 5);
 				portaAviaoDestruido = true;
-				infoTorpedo = "Porta Aviões foi destruído";
+				alertaDisparo = "Porta Aviões foi destruído";
 				
 			}
 			
-			// Se todo o Destroyer foi destruido.
-			if(tabuleiro.getDestroyer().getPosPart1().equals("") &&
-			   tabuleiro.getDestroyer().getPosPart2().equals("") &&
-			   tabuleiro.getDestroyer().getPosPart3().equals("") &&
-			   tabuleiro.getDestroyer().getPosPart4().equals("")) {
+			//Destroyer foi destruido.
+			if(tabuleiro.getDestroyer().getParte1().equals("") &&
+			   tabuleiro.getDestroyer().getParte2().equals("") &&
+			   tabuleiro.getDestroyer().getParte3().equals("") &&
+			   tabuleiro.getDestroyer().getParte4().equals("")) {
 				
-				placar.setPontuacao(placar.getPontuacao() + 5);
+				pontuacao.setPontuacao(pontuacao.getPontuacao() + 5);
 				detroyerDestruido = true;
-				infoTorpedo = "Destroyer foi destruído";
+				alertaDisparo = "Destroyer foi destruído";
 				
 			}
 			
-			// Se toda a Fragata foi destruida.
-			if(tabuleiro.getFragata().getPosPart1().equals("") &&
-			   tabuleiro.getFragata().getPosPart2().equals("") &&
-			   tabuleiro.getFragata().getPosPart3().equals("")) {
+			//Fragata foi destruida.
+			if(tabuleiro.getFragata().getParte1().equals("") &&
+			   tabuleiro.getFragata().getParte2().equals("") &&
+			   tabuleiro.getFragata().getParte3().equals("")) {
 				
-				placar.setPontuacao(placar.getPontuacao() + 5);
+				pontuacao.setPontuacao(pontuacao.getPontuacao() + 5);
 				fragataDestruido = true;
-				infoTorpedo = "Fragata foi destruída";
+				alertaDisparo = "Fragata foi destruída";
 				
 			}
 			
-			// Se todo o Torpedeiro foi destruido.
-			if(tabuleiro.getTorpedeiro().getPosPart1().equals("") &&
-			   tabuleiro.getTorpedeiro().getPosPart2().equals("")) {
+			//Torpedeiro foi destruido.
+			if(tabuleiro.getTorpedeiro().getParte1().equals("") &&
+			   tabuleiro.getTorpedeiro().getParte2().equals("")) {
 				
-				placar.setPontuacao(placar.getPontuacao() + 5);
+				pontuacao.setPontuacao(pontuacao.getPontuacao() + 5);
 				torpedeiroDestruido = true;
-				infoTorpedo = "Torpedeiro foi destruído";
+				alertaDisparo = "Torpedeiro foi destruído";
 				
 			}
 			
 			
-			// Se o Submarino foi destruido.
-			if(tabuleiro.getSubmarino().getPosPart1().equals("")) {
+			//Submarino foi destruido.
+			if(tabuleiro.getSubmarino().getParte1().equals("")) {
 				
-				placar.setPontuacao(placar.getPontuacao() + 5);
+				pontuacao.setPontuacao(pontuacao.getPontuacao() + 5);
 				submarinoDestruido = true;
-				infoTorpedo = "Submarino foi destruído";
+				alertaDisparo = "Submarino foi destruído";
 			}
 			
-			// Perde um ponto a cada disparo.
-			placar.setPontuacao(placar.getPontuacao() - 1);
+			// Regra da pontuação
+			pontuacao.setPontuacao(pontuacao.getPontuacao() - 1);
 			
-			console.imprimir("Torpedo disparado na coordenada " + coordenada + ": " + (infoTorpedo.equals("") ? "O torpedo foi pela água." : infoTorpedo)  + ".\n");
-			
-			// Todos os navios foram destruidos?
+			formulario.imprimir("Torpedo disparado na coordenada " + coordenada + ": " + (alertaDisparo.equals("") ? "O torpedo caiu na água." : alertaDisparo)  + ".\n");
+
 			if(portaAviaoDestruido && detroyerDestruido && fragataDestruido && torpedeiroDestruido && submarinoDestruido) {
 				
-				console.imprimir("Você venceu o jogo.");
+				formulario.imprimir("Parabéns, você venceu o jogo!");
 				this.finalizar();
+			} else if(pontuacao.getPontuacao() == 0) {
 				
-				// O placar está zerado?
-			} else if(placar.getPontuacao() == 0) {
-				
-				console.imprimir("Você perdeu o jogo.");
+				formulario.imprimir("Você perdeu o jogo, hahaha!");
 				this.finalizar();
 				
 			}
 			
-			// A informação de torpedo é iniciada.
-			infoTorpedo = "";
+			alertaDisparo = "";
 			
 		}
 
 }
+
