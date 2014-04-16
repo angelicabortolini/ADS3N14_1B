@@ -40,7 +40,7 @@ public class ControllerPrincipal {
 				MenuConsole.imprimir("Quantidade de Trocas:");
 				MenuConsole.imprimir("Insert Sort:\t" + AlgoritimoOrdenacao.getCountTrocasInsertSort());
 				MenuConsole.imprimir("Quick Sort:\t"   + AlgoritimoOrdenacao.getCountTrocasQuickSort());
-				
+
 				// Inicia o valor dos campos da Ordenação.
 				AlgoritimoOrdenacao.setCountComparacoesInsertSort(0);
 				AlgoritimoOrdenacao.setCountComparacoesQuickSort(0);

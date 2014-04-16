@@ -4,51 +4,51 @@ import java.util.Random;
 
 public class ComparacaoOrdenacao {
 
-	private int countComparacoesInsertSort;
-	private int countComparacoesQuickSort;
-	private int countTrocasInsertSort;
-	private int countTrocasQuickSort;
-	private int[] array;
+	private long countComparacoesInsertSort;
+	private long countComparacoesQuickSort;
+	private long countTrocasInsertSort;
+	private long countTrocasQuickSort;
+	private int[] OrdenacaoArray;
+	
 	
 	public ComparacaoOrdenacao() {}
-	
 
-	public int getCountComparacoesInsertSort() {
+	public long getCountComparacoesInsertSort() {
 		return countComparacoesInsertSort;
 	}
 
 
-	public void setCountComparacoesInsertSort(int countComparacoesInsertSort) {
+	public void setCountComparacoesInsertSort(long countComparacoesInsertSort) {
 		this.countComparacoesInsertSort = countComparacoesInsertSort;
 	}
 
 
-	public int getCountComparacoesQuickSort() {
+	public long getCountComparacoesQuickSort() {
 		return countComparacoesQuickSort;
 	}
 
 
-	public void setCountComparacoesQuickSort(int countComparacoesQuickSort) {
+	public void setCountComparacoesQuickSort(long countComparacoesQuickSort) {
 		this.countComparacoesQuickSort = countComparacoesQuickSort;
 	}
 
 
-	public int getCountTrocasInsertSort() {
+	public long getCountTrocasInsertSort() {
 		return countTrocasInsertSort;
 	}
 
 
-	public void setCountTrocasInsertSort(int countTrocasInsertSort) {
+	public void setCountTrocasInsertSort(long countTrocasInsertSort) {
 		this.countTrocasInsertSort = countTrocasInsertSort;
 	}
 
 
-	public int getCountTrocasQuickSort() {
+	public long getCountTrocasQuickSort() {
 		return countTrocasQuickSort;
 	}
 
 
-	public void setCountTrocasQuickSort(int countTrocasQuickSort) {
+	public void setCountTrocasQuickSort(long countTrocasQuickSort) {
 		this.countTrocasQuickSort = countTrocasQuickSort;
 	}
 
@@ -59,21 +59,23 @@ public class ComparacaoOrdenacao {
 	public int[] gerarArray(int num) {
 		
 		Random random = new Random();
-		array = new int[num];
+		OrdenacaoArray = new int[num];
 		
-		for(int i = 0; i < array.length; i++) {
+		for(int i = 0; i < OrdenacaoArray.length; i++) {
 			
-			array[i] = random.nextInt(num + 1);
+			OrdenacaoArray[i] = random.nextInt(num + 1);
 			
 		}
 		
-		return array;
+		return OrdenacaoArray;
 		
 	}
 	
 	public void InsertSort() {
-		
-		int[] arrayInsert = array;
+		int[] arrayInsert = new int[OrdenacaoArray.length];
+		for (int i = 0; i < OrdenacaoArray.length; i++) {
+			arrayInsert[i] = OrdenacaoArray[i];
+		}
 		
         for(int fixo = 1; fixo <= arrayInsert.length; fixo++) {
         	 
@@ -98,7 +100,11 @@ public class ComparacaoOrdenacao {
 	
 	public void QuickSort(){
 		
-		int[] arrayQuickSort = array;
+		int[] arrayQuickSort = new int[OrdenacaoArray.length];
+		for (int i = 0; i < OrdenacaoArray.length; i++) {
+			arrayQuickSort[i] = OrdenacaoArray[i];
+		}
+		
 		Ordenar(arrayQuickSort, 0, arrayQuickSort.length - 1);
 	}
 
