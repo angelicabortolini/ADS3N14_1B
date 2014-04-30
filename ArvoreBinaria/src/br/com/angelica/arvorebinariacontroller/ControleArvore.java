@@ -13,8 +13,6 @@ public class ControleArvore {
 
 	private ConsoleArvore console;
 	private Arvore arvore;
-	private No no;
-	//private No<String> anterior = null;	
 	private Arquivo arquivo ;
 	
 	
@@ -43,8 +41,7 @@ public class ControleArvore {
 			while( (linhaArquivo = arquivo.consultar())!= null) {
 			
 				String[] valores = linhaArquivo.split("\\|");			
-				no = new No();
-				arvore.insereNoArvore(no,valores[0],valores[1]);
+				arvore.insereNoArvore(arvore.getRaiz(),valores[0],valores[1]);
 				
 			} 
 		}catch (Exception e) {
@@ -55,8 +52,7 @@ public class ControleArvore {
 	public void insereValor(String nome, String telefone) throws IOException{
 		
 		String linhaArquivo = nome + "|" + telefone;	
-		no = new No();
-		arvore.insereNoArvore(no,nome,telefone);
+		arvore.insereNoArvore(arvore.getRaiz(),nome,telefone);
 	    arquivo.gravar(linhaArquivo);
 		
 	}
@@ -92,14 +88,14 @@ public class ControleArvore {
 				nome = console.capturarNome();
 				console.exibirMensagem("Informe o telefône: ", false);
 				telefone = console.capturarNumeroTel();
-				
+				arvore.setRetorno(null);
 				try {
 					insereValor(nome, telefone);
 				} catch(IOException e) {
 					
 				}
 				
-				console.exibirMensagem("Contato adicionado", true);
+				console.exibirMensagem(arvore.getRetorno(), true);
 				break;
 				
 			case 2:
@@ -126,23 +122,26 @@ public class ControleArvore {
 				break;
 				
 			case 4:
-				
+				arvore.setRetorno(null);
 				console.exibirTituloOpcao("Consultar modo Infixado");		
-				console.imprimirLista(arvore.travessiaInfixada(arvore.getRaiz(), null));
+				arvore.travessiaInfixada(arvore.getRaiz());
+				console.imprimirLista(arvore.getRetorno());
 				
 				break;
 				
 			case 5:
-				
-				console.exibirTituloOpcao("Consultar modo Prefixado");		
-				console.imprimirLista(arvore.travesiaPrefixada(arvore.getRaiz(), null));
+				arvore.setRetorno(null);
+				console.exibirTituloOpcao("Consultar modo Prefixado");	
+				arvore.travesiaPrefixada(arvore.getRaiz());
+				console.imprimirLista(arvore.getRetorno());
 				
 				break;
 				
 			case 6:
-				
+				arvore.setRetorno(null);
 				console.exibirTituloOpcao("Consultar modo Posfixado");		
-				console.imprimirLista(arvore.travesiaPrefixada(arvore.getRaiz(), null));
+				arvore.travesiaPrefixada(arvore.getRaiz());
+				console.imprimirLista(arvore.getRetorno());
 				
 				break;
 			

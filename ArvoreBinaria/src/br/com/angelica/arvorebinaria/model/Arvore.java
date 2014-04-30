@@ -5,7 +5,8 @@ public class Arvore {
 	private No raiz;
 	private int profundidade;
 	private int largura;
-	
+	private String retorno;
+
 	public No getRaiz() {
 		return raiz;
 	}
@@ -30,76 +31,93 @@ public class Arvore {
 		this.largura = largura;
 	}
 	
+	public String getRetorno() {
+		return retorno;
+	}
+
+	public void setRetorno(String retorno) {
+		this.retorno = retorno;
+	}
+	
+	// insere nós na arvore
 	public void insereNoArvore(No no,String nome,String telefone){
 
 		if(this.raiz == null){
-			
+			no = new No();
 			no.insertNo(nome, telefone, null, null, null);
 			this.raiz = no;
-
+			this.retorno = "Contato inserido com sucesso.";
+			
 		}else{
 		
-         /*if (valor < node.valor) {
-        		
-	            if (node.esquerda != null) {
-	                inserir(node.esquerda, valor);
-	            } else {
-
-	                System.out.println("  Inserindo " + valor + " a esquerda de " + node.valor);
-	                node.esquerda = new No(valor);
-	            }
-	        } else if (valor > node.valor) {
-
-	            if (node.direita != null) {
-	                inserir(node.direita, valor);
-	            } else {
-
-	                System.out.println("  Inserindo " + valor + " a direita de " + node.valor);
-	                node.direita = new No(valor);
-	            }
-	        }*/
+			 int comparador = 0;
+			 comparador = nome.compareTo(no.getValor().getNome());
+			 
+			 if(comparador < 0){
+				 if(no.getEsquerda() != null){
+					 insereNoArvore(no.getEsquerda(),nome,telefone);
+				 }else{	
+					 No novo = new No();			
+					 novo.insertNo(nome, telefone, null, null, null);	
+					 no.setEsquerda(novo);
+					 this.retorno = "Contato inserido com sucesso.";
+				 }
+			 }else if(comparador > 0){
+				 if(no.getEsquerda() != null){
+					 insereNoArvore(no.getDireita(),nome,telefone);
+				 }else{	
+					 No novo = new No();					
+					 novo.insertNo(nome, telefone, null, null, null);
+					 no.setDireita(novo);
+					 this.retorno = "Contato inserido com sucesso.";
+				 } 
+			 }else{
+				 this.retorno = "O contato já existe na base de dados .";
+			 }
 		}
+		
 	}
+	
 	
 	public void deletaNoArvore(String nome){
 		
 	}
 	
-	public void buscaNoArvore(){
+	public String buscaNoArvore(No no, String nome, String retorno){
 		
+		 
+		 return retorno;
 	} 
 	
-	public String travesiaPrefixada(No no, String travessia) {
+	public void travesiaPrefixada(No no) {
 	        
 	 	if(no != null){
-        	travessia += no.getValor() + " ";
-        	travesiaPrefixada(no.getEsquerda(),travessia);
-        	travesiaPrefixada(no.getDireita(),travessia);
+        	this.retorno += no.getValor().getNome() + " ";
+        	travesiaPrefixada(no.getEsquerda());
+        	travesiaPrefixada(no.getDireita());
         }
         
-        return travessia;
 	}
 	 
-	public String travessiaPosfixada(No no,String travessia) {
+	public void travessiaPosfixada(No no) {
 		  	
         if(no != null){
-        	travessiaPosfixada(no.getEsquerda(),travessia);
-        	travessiaPosfixada(no.getDireita(),travessia);
-        	travessia += no.getValor() + " ";
+        	travessiaPosfixada(no.getEsquerda());
+        	travessiaPosfixada(no.getDireita());
+        	this.retorno += no.getValor().getNome() + " ";
         }
         
-        return travessia;
 	}
 	  
-	public String travessiaInfixada(No no, String travessia) {
+	public void travessiaInfixada(No no) {
 
         if(no != null){
-        	travessiaInfixada(no.getEsquerda(),travessia);
-        	travessia += no.getValor() + " ";
-			travessiaInfixada(no.getDireita(),travessia);
+        	travessiaInfixada(no.getEsquerda());
+        	this.retorno += no.getValor().getNome() + " ";
+			travessiaInfixada(no.getDireita());
         }
         
-        return travessia;
+
 	}
 	
 }
